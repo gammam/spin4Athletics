@@ -8,7 +8,7 @@ var express = require("express"),
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var routes = require("./api/routes/s4aRoutes"); //importing route
+var routes = require("./src/api/routes/s4aRoutes"); //importing route
 routes(app); //register the route
 
 app.listen(port);

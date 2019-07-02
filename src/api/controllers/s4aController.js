@@ -15,25 +15,22 @@ exports.list_all_sessions = function(req, res) {
   var athleteId = req.params.athleteId;
   console.log("athledId = ", athleteId);
   let allSessions = [];
-  sessionsCollection
-    // .where("athledeId", "==", athleteId)
-    .get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        allSessions.push({
-          docId: doc.id,
-          sessionData: doc.data()
-        });
-      });
-      //respond with the array created
-      // as a json
-      res.json({
-        statusCode: 200,
-        statusResponse: "OK",
-        messages: "All sessions",
-        data: allSessions
+  sessionsCollection.get().then(snapshot => {
+    snapshot.forEach(doc => {
+      allSessions.push({
+        docId: doc.id,
+        sessionData: doc.data()
       });
     });
+    //respond with the array created
+    // as a json
+    res.json({
+      statusCode: 200,
+      statusResponse: "OK",
+      messages: "All sessions",
+      data: allSessions
+    });
+  });
 };
 
 exports.get_all_sessions_by_user = function(req, res) {

@@ -1,4 +1,8 @@
 {
-  "version": 2,
-  "name": "now-spin4Athletics"
+  "version": 1,
+  "name": "now-spin",
+  "builds": [
+    { "src": "server.js", "use": "@now/node" },
+    { "src": "/src/api/**/*.js", "use": "@now/node" }
+  ]
 }
