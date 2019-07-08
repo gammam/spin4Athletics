@@ -1,27 +1,52 @@
-// Initialize Firestore admin
-const admin = require("firebase-admin");
 
-const serviceAccount = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
 
-admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(serviceAccount))
-});
+///////  MONGODB 
+const url =require('url');
+const MongoClient = require('mongodb').MongoClient;
 
-const db = admin.firestore();
-var sessionsCollection = db.collection("sessions");
+// Create cached connection variable
+let cachedDb = null 
 
-exports.list_all_sessions = function(req, res) {
+// a function for connecting to MOngoDB 
+// taking a single parameter of the connection string
+
+async function connectToDatabase(uri){
+	//if the database connection is cached ,
+	//use it instead of creating a new connection
+	if (cachedDb) {
+		return cachedDd
+	}
+	//if no connection is cached, create a new one
+	const client = await MongoClient.connect(uri,{useNewUrlParser: true})
+	
+	//seect the database through the connection,
+	//using the database ath of the connection string
+	const db = await client.db(url.parse(uri).pathname.substr(1))
+	
+	// cache the database connection and return the connection
+	cachedDb = db
+	return db
+}
+
+
+
+
+
+
+
+
+exports.list_all_sessions = async function(req, res) {
   console.log("list all sessions");
   var athleteId = req.params.athleteId;
   console.log("athledId = ", athleteId);
-  let allSessions = [];
-  sessionsCollection.get().then(snapshot => {
-    snapshot.forEach(doc => {
-      allSessions.push({
-        docId: doc.id,
-        sessionData: doc.data()
-      });
-    });
+  console.log(process.env.MONGODB_URI);
+  const db = await connectToDatabase(process.env.MONGODB_URI)
+  
+  //Select sessions collection
+  const sessionsCollection = await db.collection('sessions')
+  //select all the sessions
+  const allSessions = await sessionsCollection.find({}).toArray();
+
     //respond with the array created
     // as a json
     res.json({
@@ -30,35 +55,61 @@ exports.list_all_sessions = function(req, res) {
       messages: "All sessions",
       data: allSessions
     });
-  });
-};
+  };
 
-exports.get_all_sessions_by_user = function(req, res) {
+
+exports.get_all_sessions_by_user = async function(req, res) {
   var athleteId = String(req.params.athleteId);
   console.log("get_all_sessions_by_user: ", athleteId);
 
-  let allSessions = [];
+  var queryFilter = {};
+  queryFilter["Name"] = athleteId;
 
-  let usersSessions = sessionsCollection.where("athleteId", "==", athleteId);
-  usersSessions.get().then(snapshot => {
-    snapshot.forEach(doc => {
-      console.log("retrieve data :", doc.id);
-      allSessions.push({
-        docId: doc.id,
-        sessionData: doc.data()
-      });
-    });
+ console.log("queryFilter: ",queryFilter)
+
+  const db = await connectToDatabase(process.env.MONGODB_URI)
+//Select sessions collection
+  const sessionsCollection = await db.collection('sessions')
+  //select all the sessions
+  const userSessions = await sessionsCollection.find(queryFilter).toArray();
+  
     //respond with the array created
     // as a json
     res.json({
       statusCode: 200,
       statusResponse: "OK",
-      messages: "All sessions",
-      data: allSessions
+      messages: "get_all_sessions_by_user",
+	  data: userSessions
     });
-  });
-};
+  };
+
 
 exports.read_a_session = function(req, res) {};
 exports.delete_a_session = function(req, res) {};
-exports.create_a_session = function(req, res) {};
+exports.create_a_session = function(req, res) {
+	
+
+};
+
+
+exports.insert_many_sessions =async function(req,res){
+	console.log('insert many sessions');
+	console.log('body: ', req.body);
+	
+	const db = await connectToDatabase(process.env.MONGODB_URI)
+	
+//Select sessions collection
+  const sessionsCollection = await db.collection('sessions')
+  //select all the sessions
+  
+  const insertResult = await sessionsCollection.insertMany(req.body);
+	
+	console.log('insertResult: ', insertResult);
+	
+	 res.json({
+      statusCode: 200,
+      statusResponse: "OK",
+      messages: "updated"
+    });
+	
+}

@@ -2,7 +2,16 @@
   "version": 2,
   "name": "now-spin",
   "builds": [
-    { "src": "server.js", "use": "@now/node" },
-    { "src": "/src/api/**/*.js", "use": "@now/node" }
-  ]
+    { "src": "server.js", "use": "@now/node" }
+  ],
+   "routes": [
+    { "src": "/(.*)", "dest": "/server.js" }
+  ],
+ 
+ 
+
+
 }
+
+
+

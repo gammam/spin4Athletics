@@ -1,15 +1,22 @@
 {
   "name": "spin4athletics",
+  "engines": {
+    "node": "10.x"
+  },
   "version": "0.0.1",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "express": "4.17.1",
+    "express-jwt": "^5.3.1",
     "firebase-admin": "8.2.0",
+    "jwks-rsa": "^1.5.1",
+    "mongodb": "^3.2.7",
     "next": "latest",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "url": "^0.11.0"
   },
   "license": "ISC"
 }
