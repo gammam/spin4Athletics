@@ -1,0 +1,3 @@
+runtime: nodejs10
+env_variables:
+	MONGODB_URI: mongodb+srv://s4a_admin:<password>@s4a-db-cluster-heltq.mongodb.net/test?retryWrites=true&w=majority

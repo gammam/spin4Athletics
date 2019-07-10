@@ -13,6 +13,16 @@ routes(app); //register the route
 
 // app.listen(port);
 
+if (module === require.main){
+	// [START listen]
+	const PORT = process.env.PORT || 8080;
+	app.listen(POST,() => {
+	console.log('App listening on port ${PORT}');
+	console.log('Press Ctrl+C to quit');
+	})
+	// [END listen]
+}
+
+// [END app]
 module.exports = app; 
-// exports.app = functions.https.onRequest(app);
-console.log("todo list RESTful API server started on: " + port);
+
