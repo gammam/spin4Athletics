@@ -1,17 +1,9 @@
 {
   "version": 2,
   "name": "now-spin",
-  "builds": [
-    { "src": "server.js", "use": "@now/node" }
-  ],
-   "routes": [
-    { "src": "/(.*)", "dest": "/server.js" }
-  ],
- 
- 
-
-
+  "builds": [{ "src": "server.js", "use": "@now/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/server.js" }],
+  "env": {
+    "MONGODB_URI": "mongodb+srv://s4a_admin:s4a_admin@s4a-db-cluster-heltq.mongodb.net/test?retryWrites=true&w=majority"
+  }
 }
-
-
-
