@@ -19,11 +19,12 @@ tags:
   description: Operations available to regular developers
 
 paths:
-  /sessions:
+  /admin/sessions:
     post:
       tags:
-      - developers
-      summary: upload recorded sessions 
+      - admins
+      operationId: addSessions
+      summary: upload sessions 
       description: upload one or many training sessions 
       consumes:
       - application/json
@@ -31,10 +32,12 @@ paths:
       - application/json
       parameters:
       - in: body
-        name: sessionItem
-        description: Inventory item to add
+        name: sessionList
+        description: session items to add
         schema:
-          $ref: '#/definitions/SessionItem'
+            type: array
+            items:
+              $ref: '#/definitions/SessionItem'                  
       responses:
         201:
           description: session(s) created
@@ -44,6 +47,48 @@ paths:
           description: forbidden
       security:
         - ApiKeyAuth: []  
+    get:
+      tags:
+      - admins
+      operationId: getSessions
+      summary: searches sessions 
+      description: |
+        By passing in the appropriate options, you can search for
+        available sessions in the system 
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: searchString
+        description: pass an optional search string for looking up session
+        required: false
+        type: string
+      - in: query
+        name: skip
+        description: number of records to skip for pagination
+        type: integer
+        format: int32
+        minimum: 0
+      - in: query
+        name: limit
+        description: maximum number of records to return
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SessionItem'
+        400:
+          description: bad input parameter
+      security:
+        - ApiKeyAuth: []
   /inventory:
     get:
       security:

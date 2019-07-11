@@ -8,17 +8,25 @@ module.exports = function(app) {
   });
 
   // spin4Athletics Routes
+
+  // Admin operations
+  app
+    .route("/v1/admin/sessions")
+    .get(s4a.listSessions)
+    .post(s4a.addSessions);
+
+  /* TODO - Manage  Athlete 
   app
     .route("/v1/:athleteId/sessions")
     .post(s4a.create_a_session)
     .get(s4a.get_all_sessions_by_user);
-
-  app.route("/v1/sessions")
-     .get(s4a.list_all_sessions)
-	 .post(s4a.insert_many_sessions);
+    
 
   app
-    .route("/v1/sessions/:sessionId")
-    .get(s4a.read_a_session)
-    .delete(s4a.delete_a_session);
+  .route("/v1/:athleteId/sessions/:sessionId")
+  .post(s4a.update_a_session)
+  .put(s4a.add_a_session)
+  .get(s4a.read_a_session)
+  .delete(s4a.delete_a_session);
+*/
 };
