@@ -1,6 +1,6 @@
 module.exports = function(app) {
   var s4a = require("../controllers/s4aController");
-
+  var admin = require("../controllers/s4aAdmin");
   // test Routes
 
   app.route("/").get(function(req, res) {
@@ -12,8 +12,8 @@ module.exports = function(app) {
   // Admin operations
   app
     .route("/v1/admin/sessions")
-    .get(s4a.listSessions)
-    .post(s4a.addSessions);
+    .get(admin.listSessions)
+    .post(admin.addSessions);
 
   /* TODO - Manage  Athlete 
   app
