@@ -35,9 +35,14 @@ paths:
         name: sessionList
         description: session items to add
         schema:
-            type: array
-            items:
-              $ref: '#/definitions/SessionItem'                  
+            type: object
+            properties:
+              payload:
+                type: array
+                maxItems: 1000
+                minItems: 1
+                items:
+                  $ref: "#/definitions/SessionItem"                 
       responses:
         201:
           description: session(s) created
@@ -92,7 +97,7 @@ paths:
   /inventory:
     get:
       security:
-          - OAuth2: []  
+          - ApiKeyAuth: []  
       tags:
       - admins
       summary: searches inventory
@@ -132,7 +137,7 @@ paths:
           description: bad input parameter
     post:
       security:
-          - OAuth2: []  
+          - ApiKeyAuth: []  
       tags:
       - admins
       summary: adds an inventory item
@@ -216,9 +221,12 @@ securityDefinitions:
       write: Grants write access
       admin: Grants read and write access to administrative information
 # Added by API Auto Mocking Plugin
-host: spin4athletics.appspot.com
+# host: spin4athletics.appspot.com
 
 schemes:
  - https
 # Added by API Auto Mocking Plugin
+# basePath: /v1
+# Added by API Auto Mocking Plugin
+host: spin4athletics.appspot.com
 basePath: /v1

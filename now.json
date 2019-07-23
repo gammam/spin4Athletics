@@ -4,6 +4,7 @@
   "builds": [{ "src": "server.js", "use": "@now/node" }],
   "routes": [{ "src": "/(.*)", "dest": "/server.js" }],
   "env": {
-    "MONGODB_URI": "mongodb+srv://s4a_admin:s4a_admin@s4a-db-cluster-heltq.mongodb.net/test?retryWrites=true&w=majority"
+    "MONGODB_URI": "@mongodb_uri",
+    "NODE_ENV": "QA"
   }
 }

@@ -1,3 +1,8 @@
-runtime: nodejs10
+runtime: nodejs
+env: flex
 env_variables:
-	MONGODB_URI: mongodb+srv://s4a_admin:<password>@s4a-db-cluster-heltq.mongodb.net/test?retryWrites=true&w=majority
+ MONGODB_URI: mongodb+srv://s4a_admin:<password>@s4a-db-cluster-heltq.mongodb.net/test?retryWrites=true&w=majority
+endpoints_api_service:
+  # The following values are to be replaced by information from the output of
+  # 'gcloud endpoints services deploy openapi-appengine.yaml' command.
+ name: spin4athletics.appspot.com

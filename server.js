@@ -1,4 +1,6 @@
-console.log("test log");
+require("dotenv").config(); // Load .env file
+const logger = require("./src/logger.js");
+
 // const functions = require('firebase-functions'),
 const express = require("express"),
   app = express(),
@@ -14,8 +16,8 @@ if (module === require.main) {
   // [START listen]
   const PORT = process.env.PORT || 8080;
   app.listen(PORT, () => {
-    console.log("App listening on port ", PORT);
-    console.log("Press Ctrl+C to quit");
+    logger.info("App listening on port %d", PORT);
+    logger.info("Press Ctrl+C to quit");
   });
   // [END listen]
 }
