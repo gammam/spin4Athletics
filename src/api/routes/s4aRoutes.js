@@ -1,6 +1,7 @@
 module.exports = function(app) {
   // var s4a = require("../controllers/s4aController");
   var admin = require("../controllers/s4aAdmin");
+  var gifty = require("../controllers/giftyControllerFake");
   // test Routes
 
   app.route("/").get(function(req, res) {
@@ -14,6 +15,26 @@ module.exports = function(app) {
     .route("/v1/admin/sessions")
     .get(admin.listSessions)
     .post(admin.addSessions);
+
+  // Add gifty API test for DEVELOP stage
+  if (process.env.NODE_ENV === "DEV") {
+    app
+      .route("/v0/gifts")
+      .post(gifty.addGift)
+      .get(gifty.getGift);
+
+    app.route("/v0/gifts/:idGift");
+
+    //Participants Resources
+    app.route("/v0/gifts/:idGift/participants");
+
+    app.route("/v0/gifts/:idGift/participants/:idUser/auth");
+
+    //Proposal Resources
+    app.route("/v0/gifts/:idGift/proposal");
+
+    app.route("/v0/gifts/:idGift/proposal/:idProposal/votes");
+  }
   // app
   //   .route("v1/admin/team")
   //   .put(admin.createTeam)
